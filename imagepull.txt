@@ -1,0 +1,60 @@
+1> After push the image to ECR
+2>aws ecr get-login-password --region us-east-1
+   run it in the master node
+     you will get token copy it 
+3> kubectl create secret docker-registry ecr-secret \
+  --docker-server=254209145424.dkr.ecr.us-east-1.amazonaws.com \
+  --docker-username=AWS \
+  --docker-password='PASTE_YOUR_ECR_PASSWORD'
+4>kubectl get secret ecr-secret
+5>Now run the deployment file or restart
+
+kubectl apply -f deployment.yaml
+     or
+kubectl rollout restart deployment myapp-deployment
+
+
+Make sure add it in deployment file
+
+spec:
+      imagePullSecrets:
+        - name: ecr-secret
+
+      containers:
+        - name: myapp-container
+          image: 254209145424.dkr.ecr.us-east-1.amazonaws.com/k8s/testecr:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+
+kubectl get pods -o wide
+
+
+=================================================================
+If it is DockerHub Private Account
+
+1> docker login -u YOUR_DOCKERHUB_USERNAME
+
+2>kubectl create secret docker-registry dockerhub-secret \
+  --docker-server=https://index.docker.io/v1/ \
+  --docker-username=YOUR_USERNAME \
+  --docker-password='YOUR_ACCESS_TOKEN'
+
+3>spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-secret
+
+
+
+# 1. Generate Docker Hub Access Token
+----------------------------------
+1. Login to Docker Hub.
+2. Go to Account Settings.
+3. Open Personal access tokens.
+4. Click Generate new token.
+5. Give it a name, for example kubernetes-secret.
+6. Select Read-only permission (sufficient for pulling images).
+7. Generate and copy the token.
+

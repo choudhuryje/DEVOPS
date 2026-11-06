@@ -1,0 +1,14 @@
+You want to transfer abc.txt from your EC2 Ubuntu instance to your Windows laptop.
+
+Step 1. Open Windows PowerShell
+
+Don't execute this command inside the EC2 SSH terminal.
+
+Step 2. Run SCP from Windows PowerShell
+
+scp -i "C:\Users\jeeban.k.c\Downloads\j.pem" ubuntu@34.227.78.42:/home/ubuntu/abc.txt "C:\Users\jeeban.k.c\Downloads\"
+
+
+Now you want to transfer a file from Windows laptop → EC2 Ubuntu instance. This is called uploading a file using SCP.
+
+scp -i "C:\Users\jeeban.k.c\Downloads\j.pem" "C:\Users\jeeban.k.c\Downloads\abc.txt" ubuntu@34.227.78.42:/home/ubuntu/

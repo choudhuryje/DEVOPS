@@ -1,0 +1,60 @@
+sudo rm -f /usr/local/bin/kubectl
+=================================
+sudo apt-get update
+sudo apt-get install -y curl ca-certificates
+
+cd /tmp
+
+curl -fLO "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+kubectl version --client
+
+==================================
+
+EKS
+
+================
+aws eks update-kubeconfig \
+  --region us-east-1 \
+  --name my-eks
+
+
+kubectl get nodes
+kubectl get pods -A
+
+=====================
+
+Download eksctl
+
+=========
+curl -LO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz"
+
+
+tar -xzf eksctl_Linux_amd64.tar.gz
+
+sudo install -o root -g root -m 0755 eksctl /usr/local/bin/eksctl
+
+eksctl version
+
+scp -i d.pem ubuntu@13.204.249.18:/home/ubuntu/abc.txt .
+
+scp -i "C:\Users\jeeban.k.c\Downloads\d.pem" ubuntu@13.204.249.18:/home/ubuntu/abc.txt .
+
+
+
+
+eksctl create iamserviceaccount \
+  --region ap-south-1 \
+  --name ebs-csi-controller-sa \
+  --namespace kube-system \
+  --cluster My-cluster \
+  --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+  --approve \
+  --override-existing-serviceaccounts
+
+kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/ecr/?ref=release-1.11"
+
+
+
